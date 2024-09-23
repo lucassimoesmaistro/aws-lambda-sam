@@ -25,7 +25,6 @@ Resources:
           Properties:
             Path: /name
             Method: post
-      Policies: []
 
   ApplicationResourceGroup:
     Type: AWS::ResourceGroups::Group
