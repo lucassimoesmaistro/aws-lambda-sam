@@ -3,8 +3,6 @@ Transform: AWS::Serverless-2016-10-31
 Description: >
   lambda-create-name
 
-  Sample SAM Template for lambda-create-name
-
 Globals:
   Function:
     Timeout: 3
@@ -21,7 +19,6 @@ Resources:
       Runtime: python3.10
       Architectures:
       - x86_64
-      # Removi o evento de API Gateway, pois você já tem um API existente.
       Events: {}
 
   ApplicationResourceGroup:
@@ -45,4 +42,4 @@ Outputs:
     Value: !GetAtt StoreNameFunction.Arn
   StoreNameFunctionIamRole:
     Description: Implicit IAM Role created for Store Name function
-    Value: !GetAtt StoreNameFunctionIamRole.Arn
+    Value: !GetAtt StoreNameFunctionRole.Arn
