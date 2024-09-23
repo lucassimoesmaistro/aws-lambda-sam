@@ -20,14 +20,11 @@ Resources:
       Architectures:
       - x86_64
       Events:
-        ExistingApiPostMethod:
+        NameApiGateway:
           Type: Api
           Properties:
-            RestApiId: mnytcnagpb
             Path: /name
             Method: post
-            Auth:
-              Authorizer: NONE
 
   ApplicationResourceGroup:
     Type: AWS::ResourceGroups::Group
