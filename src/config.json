@@ -3,12 +3,12 @@
       "aws_account": 541128407328,
       "aws_region": "eu-central-1",
       "aws_assume_role_arn": "arn:aws:iam::541128407328:role/role-githubactions",
-      "aws_tfstate_bucket": "tfstates-lucassimoesmaistro"
+      "aws_deployment_package_bucket": "tfstates-lucassimoesmaistro"
     },
     "prod":{
       "aws_account": 541128407328,
       "aws_region": "eu-central-1",
       "aws_assume_role_arn": "arn:aws:iam::541128407328:role/role-githubactions",
-      "aws_tfstate_bucket": "tfstates-lucassimoesmaistro"
+      "aws_deployment_package_bucket": "tfstates-lucassimoesmaistro"
     }
 }
