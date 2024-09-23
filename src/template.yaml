@@ -19,7 +19,12 @@ Resources:
       Runtime: python3.10
       Architectures:
       - x86_64
-      Events: {}
+      Events:
+        NameApiGateway:
+          Type: Api
+          Properties:
+            Path: /name
+            Method: post
 
   ApplicationResourceGroup:
     Type: AWS::ResourceGroups::Group
