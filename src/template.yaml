@@ -14,7 +14,7 @@ Resources:
   StoreNameFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: name/
+      CodeUri: store_name/
       Handler: app.lambda_handler
       Runtime: python3.10
       Architectures:
