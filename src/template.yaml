@@ -1,0 +1,48 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  lambda-create-name
+
+  Sample SAM Template for lambda-create-name
+
+Globals:
+  Function:
+    Timeout: 3
+    Tracing: Active
+    LoggingConfig:
+      LogFormat: JSON
+
+Resources:
+  StoreNameFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: name/
+      Handler: app.lambda_handler
+      Runtime: python3.10
+      Architectures:
+      - x86_64
+      # Removi o evento de API Gateway, pois você já tem um API existente.
+      Events: {}
+
+  ApplicationResourceGroup:
+    Type: AWS::ResourceGroups::Group
+    Properties:
+      Name:
+        Fn::Sub: ApplicationInsights-SAM-${AWS::StackName}
+      ResourceQuery:
+        Type: CLOUDFORMATION_STACK_1_0
+        
+  ApplicationInsightsMonitoring:
+    Type: AWS::ApplicationInsights::Application
+    Properties:
+      ResourceGroupName:
+        Ref: ApplicationResourceGroup
+      AutoConfigurationEnabled: 'true'
+
+Outputs:
+  StoreNameFunction:
+    Description: Store Name By City Lambda Function ARN
+    Value: !GetAtt StoreNameFunction.Arn
+  StoreNameFunctionIamRole:
+    Description: Implicit IAM Role created for Store Name function
+    Value: !GetAtt StoreNameFunctionIamRole.Arn
