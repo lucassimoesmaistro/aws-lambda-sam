@@ -1,0 +1,37 @@
+name: "Deploy Lambda"
+
+on:
+    workflow_call:
+      inputs:
+        environment:
+          type: string
+          required: true
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-python@v2
+    - uses: aws-actions/setup-sam@v1
+
+    - name: Read environment configuration
+      id: read-env-config
+      run: |
+        CONFIG=$(jq -r ".${{ inputs.environment }}" ./infra/config.json)
+        echo "destroy=$(echo $CONFIG | jq -r '.destroy')" >> $GITHUB_ENV
+        echo "aws_account=$(echo $CONFIG | jq -r '.aws_account')" >> $GITHUB_ENV
+        echo "aws_region=$(echo $CONFIG | jq -r '.aws_region')" >> $GITHUB_ENV
+        echo "aws_assume_role_arn=$(echo $CONFIG | jq -r '.aws_assume_role_arn')" >> $GITHUB_ENV
+        echo "aws_deployment_package_bucket=$(echo $CONFIG | jq -r '.aws_deployment_package_bucket')" >> $GITHUB_ENV
+    
+    - name: AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        role-to-assume: ${{ env.aws_assume_role_arn }}
+        role-session-name: GitHub_to_AWS_via_FederatedOIDC
+        aws-region: ${{ env.aws_region }}
+
+    - run: sam build --template-file src/template.yaml --use-container
+
+    - run: sam deploy --template-file src/template.yaml --no-confirm-changeset --no-fail-on-empty-changeset --stack-name sam-lambda-store-name --s3-bucket ${{ env.aws_deployment_package_bucket }} --capabilities CAPABILITY_IAM --region ${{ env.aws_region }}
