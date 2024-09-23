@@ -19,6 +19,21 @@ Resources:
       Runtime: python3.10
       Architectures:
       - x86_64
+      Policies:
+        - PolicyName: DynamoDBFullAccessPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - dynamodb:PutItem
+                  - dynamodb:GetItem
+                  - dynamodb:UpdateItem
+                  - dynamodb:DeleteItem
+                  - dynamodb:Query
+                  - dynamodb:Scan
+                Resource: arn:aws:dynamodb:eu-central-1:541128407328:table/NamePerCity
+
       Events:
         NameApiGateway:
           Type: Api
